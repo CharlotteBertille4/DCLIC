@@ -59,7 +59,7 @@ class _NoteListScreenState extends State<NoteListScreen> {
           content: SingleChildScrollView(
             // important pour éviter que le dialog prenne toute la hauteur
             child: Column(
-              mainAxisSize: MainAxisSize.min, // <-- fait rétrécir le dialog
+              mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 TextField(
@@ -71,8 +71,13 @@ class _NoteListScreenState extends State<NoteListScreen> {
                 const SizedBox(height: 8),
                 TextField(
                   controller: _contentController,
-                  decoration: const InputDecoration(labelText: 'Contenu'),
-                  maxLines: null,
+                  maxLines: 8, // textarea large
+                  keyboardType: TextInputType.multiline,
+                  decoration: const InputDecoration(
+                    labelText: "Contenu",
+                    alignLabelWithHint: true,
+                    border: OutlineInputBorder(),
+                  ),
                 ),
               ],
             ),
@@ -80,14 +85,16 @@ class _NoteListScreenState extends State<NoteListScreen> {
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(ctx),
-              child: const Text("Annuler"),
+              child: const Text(
+                "Annuler",
+                style: TextStyle(color: kSecondaryColor),
+              ),
             ),
             ElevatedButton(
               onPressed: () async {
                 final title = _titleController.text.trim();
                 final content = _contentController.text.trim();
-                if (content.isEmpty)
-                  return; // tu peux ajouter un Snackbar si tu veux
+                if (content.isEmpty) return;
                 final now = DateTime.now().toIso8601String();
                 final id = DateTime.now().millisecondsSinceEpoch.toString();
 
@@ -222,9 +229,10 @@ class _NoteListScreenState extends State<NoteListScreen> {
   // }
 
   Future<void> _editNoteDialog(Note note) async {
-    final TextEditingController ctrl = TextEditingController(
-      text: note.content,
-    );
+    // Pré-remplir les champs avec les valeurs actuelles
+    _titleController.text = note.title ?? "";
+    _contentController.text = note.content;
+
     await showDialog(
       context: context,
       builder: (ctx) {
@@ -233,16 +241,30 @@ class _NoteListScreenState extends State<NoteListScreen> {
             borderRadius: BorderRadius.circular(12),
           ),
           title: const Text("Modifier la note"),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                controller: ctrl,
-                decoration: const InputDecoration(
-                  labelText: "Contenu de la note",
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TextField(
+                  controller: _titleController,
+                  decoration: const InputDecoration(
+                    labelText: 'Titre (optionnel)',
+                  ),
                 ),
-              ),
-            ],
+                const SizedBox(height: 8),
+                TextField(
+                  controller: _contentController,
+                  maxLines: 8,
+                  keyboardType: TextInputType.multiline,
+                  decoration: const InputDecoration(
+                    labelText: "Contenu",
+                    alignLabelWithHint: true,
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+              ],
+            ),
           ),
           actions: [
             TextButton(
@@ -254,17 +276,31 @@ class _NoteListScreenState extends State<NoteListScreen> {
             ),
             ElevatedButton(
               onPressed: () async {
-                final text = ctrl.text.trim();
-                if (text.isNotEmpty) {
-                  final updatedNote = note.copyWith(content: text);
-                  await db.updateNote(updatedNote);
+                final title = _titleController.text.trim();
+                final content = _contentController.text.trim();
+
+                if (content.isEmpty) return;
+
+                final updated = Note(
+                  id: note.id, // garder le même ID
+                  userId: note.userId, // garder le même userId
+                  title: title.isEmpty ? null : title,
+                  content: content,
+                  createdAt: note.createdAt, // on garde la date d'origine
+                );
+
+                try {
+                  await db.updateNote(updated);
+                  await _loadNotes();
                   Navigator.pop(ctx);
-                  _loadNotes();
+                } catch (e) {
+                  print("NOTE DB: updateNote ERROR -> $e");
+                  Navigator.pop(ctx);
                 }
               },
               style: ElevatedButton.styleFrom(backgroundColor: kPrimaryColor),
               child: const Text(
-                "Enregistrer",
+                "Modifier",
                 style: TextStyle(color: Colors.white),
               ),
             ),
@@ -273,6 +309,59 @@ class _NoteListScreenState extends State<NoteListScreen> {
       },
     );
   }
+
+  // Future<void> _editNoteDialog(Note note) async {
+  //   final TextEditingController ctrl = TextEditingController(
+  //     text: note.content,
+  //   );
+  //   await showDialog(
+  //     context: context,
+  //     builder: (ctx) {
+  //       return AlertDialog(
+  //         shape: RoundedRectangleBorder(
+  //           borderRadius: BorderRadius.circular(12),
+  //         ),
+  //         title: const Text("Modifier la note"),
+  //         content: Column(
+  //           mainAxisSize: MainAxisSize.min,
+  //           children: [
+  //             TextField(
+  //               controller: ctrl,
+  //               decoration: const InputDecoration(
+  //                 labelText: "Contenu de la note",
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //         actions: [
+  //           TextButton(
+  //             onPressed: () => Navigator.pop(ctx),
+  //             child: const Text(
+  //               "Annuler",
+  //               style: TextStyle(color: kSecondaryColor),
+  //             ),
+  //           ),
+  //           ElevatedButton(
+  //             onPressed: () async {
+  //               final text = ctrl.text.trim();
+  //               if (text.isNotEmpty) {
+  //                 final updatedNote = note.copyWith(content: text);
+  //                 await db.updateNote(updatedNote);
+  //                 Navigator.pop(ctx);
+  //                 _loadNotes();
+  //               }
+  //             },
+  //             style: ElevatedButton.styleFrom(backgroundColor: kPrimaryColor),
+  //             child: const Text(
+  //               "Enregistrer",
+  //               style: TextStyle(color: Colors.white),
+  //             ),
+  //           ),
+  //         ],
+  //       );
+  //     },
+  //   );
+  // }
 
   Future<void> _deleteNoteDialog(Note note) async {
     await showDialog(
@@ -321,45 +410,45 @@ class _NoteListScreenState extends State<NoteListScreen> {
     return "$day/$month/$year – $hour:$minute";
   }
 
-  void _showNoteDetail(Note note) {
-    showDialog(
-      context: context,
-      builder: (ctx) {
-        return AlertDialog(
-          title: note.title != null && note.title!.trim().isNotEmpty
-              ? Text(note.title!)
-              : const Text('Note'),
-          content: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(note.content),
-                const SizedBox(height: 12),
-                Text(
-                  'Créé le ${_formatDateTime(note.createdAt)}',
-                  style: const TextStyle(fontSize: 12, color: Colors.grey),
-                ),
-              ],
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(ctx),
-              child: const Text('Fermer'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pop(ctx);
-                _editNoteDialog(note);
-              },
-              child: const Text('Modifier'),
-            ),
-          ],
-        );
-      },
-    );
-  }
+  // void _showNoteDetail(Note note) {
+  //   showDialog(
+  //     context: context,
+  //     builder: (ctx) {
+  //       return AlertDialog(
+  //         title: note.title != null && note.title!.trim().isNotEmpty
+  //             ? Text(note.title!)
+  //             : const Text('Note'),
+  //         content: SingleChildScrollView(
+  //           child: Column(
+  //             mainAxisSize: MainAxisSize.min,
+  //             crossAxisAlignment: CrossAxisAlignment.start,
+  //             children: [
+  //               Text(note.content),
+  //               const SizedBox(height: 12),
+  //               Text(
+  //                 'Créé le ${_formatDateTime(note.createdAt)}',
+  //                 style: const TextStyle(fontSize: 12, color: Colors.grey),
+  //               ),
+  //             ],
+  //           ),
+  //         ),
+  //         actions: [
+  //           TextButton(
+  //             onPressed: () => Navigator.pop(ctx),
+  //             child: const Text('Fermer'),
+  //           ),
+  //           ElevatedButton(
+  //             onPressed: () {
+  //               Navigator.pop(ctx);
+  //               _editNoteDialog(note);
+  //             },
+  //             child: const Text('Modifier'),
+  //           ),
+  //         ],
+  //       );
+  //     },
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -508,6 +597,11 @@ class _NoteListScreenState extends State<NoteListScreen> {
               //   );
               // },
             ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _addNoteDialog,
+        backgroundColor: kPrimaryColor,
+        child: const Icon(Icons.add, color: Colors.white),
+      ),
     );
   }
 }

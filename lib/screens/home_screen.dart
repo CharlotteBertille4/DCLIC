@@ -1,4 +1,3 @@
-// lib/screens/home_screen.dart
 import 'package:flutter/material.dart';
 import 'package:projet_dclic/screens/note_list_screen.dart';
 import '../models/user.dart';

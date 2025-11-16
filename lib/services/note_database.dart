@@ -7,9 +7,9 @@ import '../models/note.dart';
 
 class NoteDatabase {
   static Database? _db;
-  static const int _dbVersion = 2; // bump to 2 pour migration
+  static const int _dbVersion = 2;
 
-  //Eviter de repeter la base de donnees et consever la connexion
+  //Evite de repeter la base de donnees et consever la connexion
   NoteDatabase._privateConstructor();
   static final NoteDatabase instance = NoteDatabase._privateConstructor();
 
@@ -36,11 +36,9 @@ class NoteDatabase {
         ''');
       },
       onUpgrade: (db, oldVersion, newVersion) async {
-        // Si on vient d'une version 1 -> ajoute la colonne title
         if (oldVersion < 2) {
           await db.execute('ALTER TABLE notes ADD COLUMN title TEXT;');
         }
-        // futures migrations ici
       },
     );
   }

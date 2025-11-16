@@ -40,7 +40,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final existing = await db.getUserByEmail(email);
     if (existing != null) {
       setState(() => _loading = false);
-      // email déjà utilisé
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Cet e-mail est déjà utilisé.')),
@@ -52,13 +51,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
       id: _generateId(),
       username: _usernameController.text.trim(),
       email: email,
-      password: _passwordController.text, // pour demo seulement
+      password: _passwordController.text,
     );
 
     await db.insertUser(user);
     setState(() => _loading = false);
 
-    // navigation vers home (on passe user en argument si besoin)
+    // navigation vers login
     if (!mounted) return;
     Navigator.of(
       context,
@@ -182,7 +181,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           const Text('Tu as déjà un compte ?'),
                           TextButton(
                             onPressed: () {
-                              // Naviguer vers login_screen (à implémenter)
+                              // Naviguer vers login_screen
                               Navigator.of(context).pushNamed('/login');
                             },
                             style: TextButton.styleFrom(

@@ -17,13 +17,11 @@ class MyApp extends StatelessWidget {
       // theme: appTheme,
       initialRoute: '/login',
       routes: {
-        // When navigating to the "/" route, build the FirstScreen widget.
         '/register': (context) => const RegisterScreen(),
-        // When navigating to the "/second" route, build the SecondScreen widget.
         '/login': (context) => const LoginScreen(),
       },
       debugShowCheckedModeBanner: false,
-      home: RegisterScreen(),
+      home: LoginScreen(),
     );
   }
 }

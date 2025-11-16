@@ -5,7 +5,7 @@ class User {
   String email;
   String password;
 
-  //costructeur de la classe User
+  //constructeur de la classe User
   User({
     required this.id,
     required this.username,

@@ -171,7 +171,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             TextButton(
                               onPressed: () {
                                 Navigator.of(context).pushReplacementNamed(
-                                  '/',
+                                  '/register',
                                 ); // retourne à l'inscription
                               },
                               style: TextButton.styleFrom(

@@ -14,7 +14,7 @@ class UserDatabase {
   static const String columnEmail = 'email';
   static const String columnPassword = 'password';
 
-  //Eviter de repeter la base de donnees et consever la connexion
+  //Evite de repeter la base de donnees et consever la connexion
   UserDatabase._privateConstructor();
   static final UserDatabase instance = UserDatabase._privateConstructor();
 
@@ -59,8 +59,6 @@ class UserDatabase {
     final db = await instance.database;
     final res = await db.query('users', where: 'email = ?', whereArgs: [email]);
     if (res.isNotEmpty) {
-      // Debug : affiche le contenu exact de la ligne retournée
-      // ignore: avoid_print
       print('DEBUG getUserByEmail result: ${res.first}');
       return User.fromMap(res.first);
     }
