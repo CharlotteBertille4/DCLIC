@@ -9,6 +9,8 @@ cd DCLIC
 - Étape 2 : Installation des dépendances
 Toujours à la racine du projet, exécute :
 flutter pub get
+flutter pub run flutter_launcher_icons(pour gerer l'icone de l'application)
+
 
 - Étape 3 : Configuration du projet
 Aucune configuration serveur n’est requise.

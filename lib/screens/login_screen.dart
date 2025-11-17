@@ -104,6 +104,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
+                        SizedBox(
+                          height: 180,
+                          child: Image.asset(
+                            'assets/images/image_projet.png',
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        SizedBox(height: 16),
                         Text(
                           'Bienvenue ',
                           style: Theme.of(context).textTheme.titleLarge

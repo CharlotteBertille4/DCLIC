@@ -104,6 +104,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
+                      SizedBox(
+                        height: 180,
+                        child: Image.asset(
+                          'assets/images/image_projet.png',
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      SizedBox(height: 16),
                       Text('Créez un compte'),
                       SizedBox(height: 16),
 
