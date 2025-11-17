@@ -29,12 +29,6 @@ class NoteDetailScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: kPrimaryColor,
         title: Text("Détail de la note", style: TextStyle(color: Colors.white)),
-        // leading: IconButton(
-        //   icon: const Icon(Icons.arrow_back, color: Colors.white),
-        //   onPressed: () => Navigator.push(
-        //     context,
-        //     MaterialPageRoute(builder: (_) => NoteDetailScreen(note: note)),
-        //   ),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),

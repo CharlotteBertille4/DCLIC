@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:projet_dclic/screens/register_screen.dart';
 
 import '../models/user.dart';
 import '../services/user_database.dart';
@@ -64,9 +65,9 @@ class _LoginScreenState extends State<LoginScreen> {
       } else {
         //Succès -> naviguer vers HomeScreen
         if (!mounted) return;
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (_) => HomeScreen(user: user)),
-        );
+        Navigator.of(
+          context,
+        ).push(MaterialPageRoute(builder: (_) => HomeScreen(user: user)));
       }
     } catch (e) {
       if (!mounted) return;
@@ -170,9 +171,11 @@ class _LoginScreenState extends State<LoginScreen> {
                             const Text("Pas encore de compte ?"),
                             TextButton(
                               onPressed: () {
-                                Navigator.of(context).pushReplacementNamed(
-                                  '/register',
-                                ); // retourne à l'inscription
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (_) => RegisterScreen(),
+                                  ),
+                                );
                               },
                               style: TextButton.styleFrom(
                                 foregroundColor: kPrimaryColor,

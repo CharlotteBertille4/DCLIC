@@ -61,7 +61,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     if (!mounted) return;
     Navigator.of(
       context,
-    ).pushReplacement(MaterialPageRoute(builder: (_) => LoginScreen()));
+    ).push(MaterialPageRoute(builder: (_) => LoginScreen()));
   }
 
   String? _validateEmail(String? mail) {
@@ -182,7 +182,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           TextButton(
                             onPressed: () {
                               // Naviguer vers login_screen
-                              Navigator.of(context).pushNamed('/login');
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (_) => LoginScreen(),
+                                ),
+                              );
                             },
                             style: TextButton.styleFrom(
                               foregroundColor: kPrimaryColor,

@@ -127,107 +127,6 @@ class _NoteListScreenState extends State<NoteListScreen> {
     );
   }
 
-  // Future<void> _addNoteDialog() async {
-  //   _titleController.clear();
-  //   _contentController.clear();
-  //
-  //   await showDialog(
-  //     context: context,
-  //     builder: (ctx) {
-  //       return AlertDialog(
-  //         shape: RoundedRectangleBorder(
-  //           borderRadius: BorderRadius.circular(12),
-  //         ),
-  //         title: const Text("Nouvelle note"),
-  //         content: Column(
-  //           mainAxisAlignment: MainAxisAlignment.start,
-  //           children: [
-  //             TextField(
-  //               controller: _titleController,
-  //               decoration: InputDecoration(labelText: 'Titre (optionnel)'),
-  //             ),
-  //             TextField(
-  //               controller: _contentController,
-  //               decoration: InputDecoration(labelText: 'Contenu'),
-  //             ),
-  //           ],
-  //         ),
-  //         actions: [
-  //           TextButton(
-  //             onPressed: () => Navigator.pop(ctx),
-  //             child: const Text("Annuler"),
-  //           ),
-  //           // ElevatedButton(
-  //           //   onPressed: () async {
-  //           //     final title = _titleController.text.trim();
-  //           //     final content = _contentController.text.trim();
-  //           //     if (content.isEmpty) return; // tu peux prévenir l'utilisateur
-  //           //
-  //           //     final now = DateTime.now().toIso8601String();
-  //           //     final id = DateTime.now().millisecondsSinceEpoch; // id simple
-  //           //
-  //           //     final noteMap = {
-  //           //       'id': id,
-  //           //       'userId': user,
-  //           //       'title': title.isEmpty ? null : title,
-  //           //       'content': content,
-  //           //       'createdAt': now,
-  //           //     };
-  //           //
-  //           //     try {
-  //           //       await db.insertNote(noteMap as Note);
-  //           //       await _loadNotes(); // recharge la liste immédiatement
-  //           //       Navigator.pop(context);
-  //           //     } catch (e) {
-  //           //       // Gérer l'erreur si besoin
-  //           //       print('NOTE DB: insertNote ERROR -> $e');
-  //           //       Navigator.pop(context);
-  //           //     }
-  //           //   },
-  //           //   style: ElevatedButton.styleFrom(backgroundColor: kPrimaryColor),
-  //           //   child: const Text(
-  //           //     "Ajouter",
-  //           //     style: TextStyle(color: Colors.white),
-  //           //   ),
-  //           // ),
-  //           ElevatedButton(
-  //             onPressed: () async {
-  //               final title = _titleController.text.trim();
-  //               final content = _contentController.text.trim();
-  //               if (content.isEmpty) return; // tu peux prévenir l'utilisateur
-  //               final now = DateTime.now().toIso8601String();
-  //               final id = DateTime.now().millisecondsSinceEpoch
-  //                   .toString(); // id simple
-  //
-  //               final note = Note(
-  //                 id: id,
-  //                 userId: widget.user.id,
-  //                 title: title.trim().isEmpty ? null : title.trim(),
-  //                 content: content,
-  //                 createdAt: now,
-  //               );
-  //               try {
-  //                 await db.insertNote(note);
-  //                 await _loadNotes(); // recharge la liste immédiatement
-  //                 Navigator.pop(ctx);
-  //               } catch (e) {
-  //                 // Gérer l'erreur si besoin
-  //                 print('NOTE DB: insertNote ERROR -> $e');
-  //                 Navigator.pop(context);
-  //               }
-  //             },
-  //             style: ElevatedButton.styleFrom(backgroundColor: kPrimaryColor),
-  //             child: const Text(
-  //               "Ajouter",
-  //               style: TextStyle(color: Colors.white),
-  //             ),
-  //           ),
-  //         ],
-  //       );
-  //     },
-  //   );
-  // }
-
   Future<void> _editNoteDialog(Note note) async {
     // Pré-remplir les champs avec les valeurs actuelles
     _titleController.text = note.title ?? "";
@@ -310,59 +209,6 @@ class _NoteListScreenState extends State<NoteListScreen> {
     );
   }
 
-  // Future<void> _editNoteDialog(Note note) async {
-  //   final TextEditingController ctrl = TextEditingController(
-  //     text: note.content,
-  //   );
-  //   await showDialog(
-  //     context: context,
-  //     builder: (ctx) {
-  //       return AlertDialog(
-  //         shape: RoundedRectangleBorder(
-  //           borderRadius: BorderRadius.circular(12),
-  //         ),
-  //         title: const Text("Modifier la note"),
-  //         content: Column(
-  //           mainAxisSize: MainAxisSize.min,
-  //           children: [
-  //             TextField(
-  //               controller: ctrl,
-  //               decoration: const InputDecoration(
-  //                 labelText: "Contenu de la note",
-  //               ),
-  //             ),
-  //           ],
-  //         ),
-  //         actions: [
-  //           TextButton(
-  //             onPressed: () => Navigator.pop(ctx),
-  //             child: const Text(
-  //               "Annuler",
-  //               style: TextStyle(color: kSecondaryColor),
-  //             ),
-  //           ),
-  //           ElevatedButton(
-  //             onPressed: () async {
-  //               final text = ctrl.text.trim();
-  //               if (text.isNotEmpty) {
-  //                 final updatedNote = note.copyWith(content: text);
-  //                 await db.updateNote(updatedNote);
-  //                 Navigator.pop(ctx);
-  //                 _loadNotes();
-  //               }
-  //             },
-  //             style: ElevatedButton.styleFrom(backgroundColor: kPrimaryColor),
-  //             child: const Text(
-  //               "Enregistrer",
-  //               style: TextStyle(color: Colors.white),
-  //             ),
-  //           ),
-  //         ],
-  //       );
-  //     },
-  //   );
-  // }
-
   Future<void> _deleteNoteDialog(Note note) async {
     await showDialog(
       context: context,
@@ -410,58 +256,11 @@ class _NoteListScreenState extends State<NoteListScreen> {
     return "$day/$month/$year – $hour:$minute";
   }
 
-  // void _showNoteDetail(Note note) {
-  //   showDialog(
-  //     context: context,
-  //     builder: (ctx) {
-  //       return AlertDialog(
-  //         title: note.title != null && note.title!.trim().isNotEmpty
-  //             ? Text(note.title!)
-  //             : const Text('Note'),
-  //         content: SingleChildScrollView(
-  //           child: Column(
-  //             mainAxisSize: MainAxisSize.min,
-  //             crossAxisAlignment: CrossAxisAlignment.start,
-  //             children: [
-  //               Text(note.content),
-  //               const SizedBox(height: 12),
-  //               Text(
-  //                 'Créé le ${_formatDateTime(note.createdAt)}',
-  //                 style: const TextStyle(fontSize: 12, color: Colors.grey),
-  //               ),
-  //             ],
-  //           ),
-  //         ),
-  //         actions: [
-  //           TextButton(
-  //             onPressed: () => Navigator.pop(ctx),
-  //             child: const Text('Fermer'),
-  //           ),
-  //           ElevatedButton(
-  //             onPressed: () {
-  //               Navigator.pop(ctx);
-  //               _editNoteDialog(note);
-  //             },
-  //             child: const Text('Modifier'),
-  //           ),
-  //         ],
-  //       );
-  //     },
-  //   );
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF8F8F8),
-      // appBar: AppBar(
-      //   backgroundColor: kPrimaryColor,
-      //   title: Text('Mes Notes — ${widget.user.username}'),
-      //   actions: [
-      //     IconButton(onPressed: _addNoteDialog, icon: const Icon(Icons.add)),
-      //   ],
-      // ),
-      appBar: const CustomAppBar(title: 'Mes notes'),
+      appBar: const CustomAppBar(title: 'Liste des notes'),
       drawer: CustomDrawer(user: widget.user),
       body: _loading
           ? const Center(child: CircularProgressIndicator())
@@ -479,7 +278,6 @@ class _NoteListScreenState extends State<NoteListScreen> {
 
                 return InkWell(
                   onTap: () {
-                    // ouvre une nouvelle page avec la note complète (voir étape 5)
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -495,12 +293,10 @@ class _NoteListScreenState extends State<NoteListScreen> {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Expanded gauche : titre (ligne 1) + date+contenu (ligne 2)
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              // Ligne 1 : titre (si présent)
                               if (hasT)
                                 Text(
                                   note.title!,
@@ -509,11 +305,7 @@ class _NoteListScreenState extends State<NoteListScreen> {
                                     fontSize: 16,
                                   ),
                                 ),
-
-                              // espace petit
                               if (hasT) const SizedBox(height: 6),
-
-                              // Ligne 2 : date + début du contenu sur la même ligne
                               Row(
                                 children: [
                                   // date
@@ -525,8 +317,6 @@ class _NoteListScreenState extends State<NoteListScreen> {
                                     ),
                                   ),
                                   const SizedBox(width: 12),
-
-                                  // début du contenu (tronqué)
                                   Expanded(
                                     child: Text(
                                       note.content,
@@ -543,8 +333,6 @@ class _NoteListScreenState extends State<NoteListScreen> {
                             ],
                           ),
                         ),
-
-                        // icônes action à droite
                         Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -571,31 +359,6 @@ class _NoteListScreenState extends State<NoteListScreen> {
                   ),
                 );
               },
-
-              // itemBuilder: (ctx, i) {
-              //   final note = notes[i];
-              //   return ListTile(
-              //     title: Text(note.title ?? '(Sans titre)'),
-              //     subtitle: Text(
-              //       note.content.split('T').first,
-              //       maxLines: 2,
-              //       overflow: TextOverflow.ellipsis,
-              //     ),
-              //     trailing: Row(
-              //       mainAxisSize: MainAxisSize.min,
-              //       children: [
-              //         IconButton(
-              //           icon: const Icon(Icons.edit, color: Colors.blueAccent),
-              //           onPressed: () => _editNoteDialog(note),
-              //         ),
-              //         IconButton(
-              //           icon: const Icon(Icons.delete, color: Colors.redAccent),
-              //           onPressed: () => _deleteNoteDialog(note),
-              //         ),
-              //       ],
-              //     ),
-              //   );
-              // },
             ),
       floatingActionButton: FloatingActionButton(
         onPressed: _addNoteDialog,

@@ -1,20 +1,35 @@
-# projet_dclic
+# Notes App – Application mobile de prise de notes
+Plateforme mobile permettant de créer, modifier, supprimer et consulter des notes enregistrées localement via SQLite.
 
-A new Flutter project.
+## Installation
+- Étape 1 : Cloner le projet
+git clone https://github.com/CharlotteBertille4/DCLIC.git
+cd DCLIC
 
-## Getting Started
+- Étape 2 : Installation des dépendances
+Toujours à la racine du projet, exécute :
+flutter pub get
 
-This project is a starting point for a Flutter application.
+- Étape 3 : Configuration du projet
+Aucune configuration serveur n’est requise.
+Assure toi uniquement que :
+Flutter SDK est installé
+Un émulateur Android ou un téléphone est disponible
+Les dépendances dans pubspec.yaml sont bien installées
 
-A few resources to get you started if this is your first Flutter project:
+- Étape 4 : Mise en place de la base de données
+La base SQLite est générée automatiquement lors du premier lancement, grâce à sqflite.
+Tu n’as donc aucune commande à exécuter manuellement.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Étape 5 : Lancement de l'application
+À la racine du projet :
+flutter run
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+# Crédits
+Développement & Maintenance :
+Charlotte TOMENOU
+- Email : charlottetomenou@gmail.com    
+- Contact : 0140043839
 
-# installer les dépendances avec: 
-- flutter pub get
-
+# Licence
+Copyright ©charly_dev

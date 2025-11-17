@@ -51,16 +51,6 @@ class Note {
     );
   }
 
-  // factory Note.fromMap(Map<String, dynamic> map) {
-  //   return Note(
-  //     id: map['id'].toString(),
-  //     title: map['title'].toString(),
-  //     userId: map['userId'].toString(),
-  //     content: map['content'].toString(),
-  //     createdAt: map['createdAt'].toString(),
-  //   );
-  // }
-
   Map<String, dynamic> toMap() {
     return {
       'id': id,
